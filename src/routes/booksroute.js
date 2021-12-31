@@ -1,13 +1,13 @@
 const express = require('express'); 
 const booksRouter = express.Router();
-// const book = require('../data/books');
+const book = require('../data/books');
 const bookdata = require('../model/BookModel');
 
 
 
     //router to render books page
     booksRouter.get('/',function(req,res){
-
+        res.render('books',{book});
         bookdata.find() 
         .then(function (books) {
 
