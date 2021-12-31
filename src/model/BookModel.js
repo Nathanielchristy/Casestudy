@@ -1,5 +1,6 @@
+const uri = process.env.MONGODB_URI;
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/Library');
+mongoose.connect(uri);
 const Schema = mongoose.Schema;
 
 
