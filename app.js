@@ -2,6 +2,7 @@ const express = require('express');
 const path = require ('path'); 
 const cors = require('cors');
 const uri = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 3000;
 
 const app = new express; 
 
@@ -60,6 +61,6 @@ app.get('/',function(req,res){
 
 
 //Port 3000
-app.listen(3000,()=>{
-    console.log("Server Ready on 3000");
+app.listen(PORT,()=>{
+    console.log(`Server Ready on ${PORT}`);
 });
