@@ -83,7 +83,7 @@ const bookdata = require('../model/BookModel');
 
         bookdata.findById(req.body.id, function(err, data){
             if (err) {
-                throw err;
+                console.log (err);
             }
             else {
                 res.render('editbook', {data})
