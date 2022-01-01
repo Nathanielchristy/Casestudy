@@ -4,7 +4,7 @@ const cors = require('cors');
 const uri = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3000;
 
-const app = new express; 
+const app =  express(); 
 
 app.set('view engine','ejs'); 
 app.set('views','./src/views'); 
@@ -34,9 +34,9 @@ const nav= [
 
 const loginRouter = require('./src/routes/loginroute');
 const signupRouter = require('./src/routes/signuproute');
-const homeRouter = require('./src/routes/homerouter');
-const booksRouter = require('./src/routes/booksroute');
-const authorsRouter = require('./src/routes/authorsroute');
+const homeRouter = require('./src/routes/homerouter')(nav);
+const booksRouter = require('./src/routes/booksroute')(nav);
+const authorsRouter = require('./src/routes/authorsroute')(nav);
 
 
 
