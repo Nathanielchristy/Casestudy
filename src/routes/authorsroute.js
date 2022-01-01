@@ -5,14 +5,14 @@ const authordata = require('../model/AuthorModel');
 
 
 function router(nav){
+//router to render authors page
 authorsRouter.get('/',function(req,res){
 
     authordata.find() 
     .then(function (authors) {
 
     res.render('authors',{
-        nav,
-        authors
+        nav,authors
     });
 
     })
@@ -22,9 +22,7 @@ authorsRouter.get('/',function(req,res){
 
 //router to render add author page
 authorsRouter.get('/addauthor',function(req,res){
-    res.render('addauthor',{
-        nav
-    });
+    res.render('addauthor',{});
 
 });
 
@@ -32,12 +30,11 @@ authorsRouter.get('/addauthor',function(req,res){
 
 
 //router to add author
-authorsRouter.post('/add',upload.single("image"), function (req, res) {
+authorsRouter.post('/add', function (req, res) {
 
     var item={
         title:req.body.title,
-        image:req.file.filename,
-        // image:req.body.image,  //part#2 point8 changed images to image(used multer instead)
+        image:req.body.image,
         about:req.body.about
     }
     console.log(item)  ;
@@ -56,7 +53,6 @@ authorsRouter.get('/:id',function(req,res){
     authordata.findOne({ _id: id })
             .then(function (author) {
                 res.render('author', {
-                    nav,
                     author
                 })
 
@@ -72,9 +68,7 @@ authorsRouter.post('/delete', function (req, res) {
 
     const id = req.body.id;  
 
-    authordata.findOneAndDelete({ _id: id },{
-        useFindAndModify:false//part#2 poinr9
-    })
+    authordata.findOneAndDelete({ _id: id },{useFindAndModify:false})
         .then(function () {
 
             res.redirect('/authors')
@@ -92,9 +86,7 @@ authorsRouter.post('/edit', function (req, res) {
             throw err;
         }
         else {
-            res.render('editauthor', {
-                nav,
-                data})
+            res.render('editauthor', {data})
         }
     })
 })
@@ -104,31 +96,25 @@ authorsRouter.post('/edit', function (req, res) {
 
 //router to update author
 authorsRouter.post('/update', function (req, res) {
-    authordata.findOne({ _id: req.body.id }) //Part #2 Point 9
-        .then(function (author) {
-            if (req.body.image != ""){
-                author.image = req.body.image;
-            }
-               
-            author.title = req.body.title;
-            author.about = req.body.about;
-            author.save(function (err) {
-                if (err) {
-                    res.json({ status: "Failed" });
-                }
-                else {
-                    res.redirect("/authors")
-                }
-            })
-        })
+
+    authordata.findByIdAndUpdate(req.body.id, { $set: req.body }, function (err, data) {
+        if (err) {
+            res.json({ status: "Failed" });
+        }
+        else if (data.n == 0) {
+            res.json({ status: "No match Found" });
+        }
+        else {
+            res.redirect("/authors")
+        }
+
+    })  
 })
+
 return authorsRouter;
 }
 
 
 
 
-
-
-
-module.exports = router;
+module.exports = authorsRouter;
