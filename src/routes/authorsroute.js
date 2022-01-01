@@ -4,19 +4,20 @@ const authorsRouter = express.Router();
 const authordata = require('../model/AuthorModel');
 
 
-function router(nav){
+
+//router to render authors page
 authorsRouter.get('/',function(req,res){
 
     authordata.find() 
     .then(function (authors) {
 
     res.render('authors',{
-        nav,
         authors
     });
 
     })
 })
+
 
 
 //router to render add author page
@@ -111,8 +112,7 @@ authorsRouter.post('/update', function (req, res) {
 })
 
 
-return authorsRouter;
-}
+
 
 
 
