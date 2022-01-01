@@ -4,11 +4,7 @@ const authorsRouter = express.Router();
 const authordata = require('../model/AuthorModel');
 
 
-<<<<<<< HEAD
 function router(nav){
-=======
-
->>>>>>> parent of 51cd94f (Final)
 //router to render authors page
 authorsRouter.get('/',function(req,res){
 
@@ -16,11 +12,7 @@ authorsRouter.get('/',function(req,res){
     .then(function (authors) {
 
     res.render('authors',{
-<<<<<<< HEAD
-        nav,authors
-=======
-        authors
->>>>>>> parent of 51cd94f (Final)
+       authors
     });
 
     })
@@ -119,13 +111,8 @@ authorsRouter.post('/update', function (req, res) {
     })  
 })
 
-<<<<<<< HEAD
 return authorsRouter;
 }
-=======
-
-
->>>>>>> parent of 51cd94f (Final)
 
 
 
