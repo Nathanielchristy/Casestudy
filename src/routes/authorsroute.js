@@ -4,7 +4,7 @@ const authorsRouter = express.Router();
 const authordata = require('../model/AuthorModel');
 
 
-function router(nav){
+
 //router to render authors page
 authorsRouter.get('/',function(req,res){
 
@@ -12,7 +12,7 @@ authorsRouter.get('/',function(req,res){
     .then(function (authors) {
 
     res.render('authors',{
-       authors
+        authors
     });
 
     })
@@ -68,7 +68,7 @@ authorsRouter.post('/delete', function (req, res) {
 
     const id = req.body.id;  
 
-    authordata.findOneAndDelete({ _id: id })
+    authordata.findOneAndDelete({ _id: id },{useFindAndModify:false})
         .then(function () {
 
             res.redirect('/authors')
@@ -111,8 +111,7 @@ authorsRouter.post('/update', function (req, res) {
     })  
 })
 
-return authorsRouter;
-}
+
 
 
 
