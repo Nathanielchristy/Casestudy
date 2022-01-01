@@ -1,7 +1,6 @@
 const express = require('express'); 
 const path = require ('path'); 
 const cors = require('cors');
-const uri = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 3000;
 
 const app =  express(); 
