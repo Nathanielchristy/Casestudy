@@ -68,7 +68,7 @@ authorsRouter.post('/delete', function (req, res) {
 
     const id = req.body.id;  
 
-    authordata.findOneAndDelete({ _id: id },{useFindAndModify:false})
+    authordata.findOneAndDelete({ _id: id })
         .then(function () {
 
             res.redirect('/authors')
