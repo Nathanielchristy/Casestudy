@@ -1,11 +1,16 @@
 const express = require('express'); 
 const homeRouter = express.Router();
 
-homeRouter.get('/',function(req,res){
+function router(nav){//part#2 point1
+    homeRouter.get('/',function(req,res){
 
-    res.render('home',{});
-    
-})
+        res.render('home',{
+            nav
+        });
+        
+    });
+    return homeRouter;
+}
 
 
 
@@ -13,4 +18,5 @@ homeRouter.get('/',function(req,res){
 
 
 
-module.exports = homeRouter;
+
+module.exports = router;

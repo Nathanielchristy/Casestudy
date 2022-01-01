@@ -4,19 +4,20 @@ const booksRouter = express.Router();
 const bookdata = require('../model/BookModel');
 
 
+function router(nav){
 
-    //router to render books page
-    booksRouter.get('/',function(req,res){
+booksRouter.get('/',function(req,res){
 
-        bookdata.find() 
-        .then(function (books) {
+    bookdata.find() 
+    .then(function (books) {
 
-        res.render('books',{
-            books
-        });
+    res.render('books',{
+        nav,
+        books
+    });
 
-        })
     })
+})
 
 
 
@@ -95,21 +96,28 @@ const bookdata = require('../model/BookModel');
 
     //router to update book
     booksRouter.post('/update', function (req, res) {
-
-        bookdata.findByIdAndUpdate(req.body.id, { $set: req.body }, function (err, data) {
-            if (err) {
-                res.json({ status: "Failed" });
-            }
-            else if (data.n == 0) {
-                res.json({ status: "No match Found" });
-            }
-            else {
-                res.redirect("/books");
-            }
-
-        }) 
+        bookdata.findOne({ _id: req.body.id }) 
+            .then(function (book) {
+                if (req.body.image != ""){
+                    book.image = req.body.image;
+                }
+    
+                book.title = req.body.title;
+                book.author = req.body.author;
+                book.about = req.body.about;
+                book.save( function (err) {
+                    if (err) {
+                        res.json({ status: "Failed" });
+                    }
+                    else {
+                        res.redirect("/books")
+                    }
+                })
+            })
     })
 
+    return booksRouter;
+}
 
 
 
