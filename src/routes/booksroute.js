@@ -101,10 +101,28 @@ function router(nav){
 
 
     //router to update book
+    booksRouter.post('/update', function (req, res) {
+
+        bookdata.findByIdAndUpdate(req.body.id, { $set: req.body }, function (err, data) {
+            if (err) {
+                res.json({ status: "Failed" });
+            }
+            else if (data.n == 0) {
+                res.json({ status: "No match Found" });
+            }
+            else {
+                res.redirect("/books");
+            }
+
+        }) 
+    })
+
+    return booksRouter;
 }
 
 
 
 
 
-module.exports = router;
+
+module.exports = booksRouter;
