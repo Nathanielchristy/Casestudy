@@ -1,9 +1,9 @@
 const uri = process.env.MONGODB_URI;
 const mongoose = require('mongoose');
-mongoose.connect(uri,{
+mongoose.connect('mongodb+srv://Nathaniel:<password>@cluster0.pvm4q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{
     useUnifiedTopology:true,
     useNewUrlParser:true,
-    useFindAndModify:false//part#2 point9
+    useFindAndModify:false
 });
 
 const Schema = mongoose.Schema;

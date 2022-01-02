@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri,{
+mongoose.connect('mongodb+srv://Nathaniel:<password>@cluster0.pvm4q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{
     useUnifiedTopology:true,
     useNewUrlParser:true,
     useFindAndModify:false});
