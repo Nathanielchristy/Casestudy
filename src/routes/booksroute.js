@@ -4,7 +4,7 @@ const booksRouter = express.Router();
 const bookdata = require('../model/BookModel');
 
 
-
+function router(nav){
     //router to render books page
     booksRouter.get('/',function(req,res){
 
@@ -12,6 +12,7 @@ const bookdata = require('../model/BookModel');
         .then(function (books) {
 
         res.render('books',{
+            nav,
             books
         });
 
@@ -22,7 +23,9 @@ const bookdata = require('../model/BookModel');
 
     //router to render addbook page
     booksRouter.get('/addbook',function(req,res){
-        res.render('addbook',{});
+        res.render('addbook',{
+            nav
+        });
 
     });
 
@@ -53,6 +56,7 @@ const bookdata = require('../model/BookModel');
         bookdata.findOne({ _id: id })
                 .then(function (book) {
                     res.render('book', {
+                        nav,
                         book
                     });
 
@@ -68,7 +72,8 @@ const bookdata = require('../model/BookModel');
 
         const id = req.body.id;  
 
-        bookdata.findOneAndDelete({ _id: id })
+        bookdata.findOneAndDelete({ _id: id },
+            {useFindAndModify:false})
             .then(function () {
 
                 res.redirect('/books')
@@ -86,7 +91,9 @@ const bookdata = require('../model/BookModel');
                 console.log (err);
             }
             else {
-                res.render('editbook', {data})
+                res.render('editbook', {
+                    nav,
+                    data})
             }
         })
     })
@@ -94,26 +101,10 @@ const bookdata = require('../model/BookModel');
 
 
     //router to update book
-    booksRouter.post('/update', function (req, res) {
-
-        bookdata.findByIdAndUpdate(req.body.id, { $set: req.body }, function (err, data) {
-            if (err) {
-                res.json({ status: "Failed" });
-            }
-            else if (data.n == 0) {
-                res.json({ status: "No match Found" });
-            }
-            else {
-                res.redirect("/books");
-            }
-
-        }) 
-    })
+}
 
 
 
 
 
-
-
-module.exports = booksRouter;
+module.exports = router;

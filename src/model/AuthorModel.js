@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri);
+mongoose.connect(uri,{
+    useUnifiedTopology:true,
+    useNewUrlParser:true,
+    useFindAndModify:false});
 const Schema = mongoose.Schema;
 
 

@@ -4,7 +4,7 @@ const authorsRouter = express.Router();
 const authordata = require('../model/AuthorModel');
 
 
-
+function router(nav){
 //router to render authors page
 authorsRouter.get('/',function(req,res){
 
@@ -12,6 +12,7 @@ authorsRouter.get('/',function(req,res){
     .then(function (authors) {
 
     res.render('authors',{
+        nav,
         authors
     });
 
@@ -22,7 +23,9 @@ authorsRouter.get('/',function(req,res){
 
 //router to render add author page
 authorsRouter.get('/addauthor',function(req,res){
-    res.render('addauthor',{});
+    res.render('addauthor',{
+        nav
+    });
 
 });
 
@@ -53,6 +56,7 @@ authorsRouter.get('/:id',function(req,res){
     authordata.findOne({ _id: id })
             .then(function (author) {
                 res.render('author', {
+                    nav,
                     author
                 })
 
@@ -86,7 +90,10 @@ authorsRouter.post('/edit', function (req, res) {
             throw err;
         }
         else {
-            res.render('editauthor', {data})
+            res.render('editauthor', {
+                nav,
+                data
+            })
         }
     })
 })
@@ -96,24 +103,31 @@ authorsRouter.post('/edit', function (req, res) {
 
 //router to update author
 authorsRouter.post('/update', function (req, res) {
-
-    authordata.findByIdAndUpdate(req.body.id, { $set: req.body }, function (err, data) {
-        if (err) {
-            res.json({ status: "Failed" });
-        }
-        else if (data.n == 0) {
-            res.json({ status: "No match Found" });
-        }
-        else {
-            res.redirect("/authors")
-        }
-
-    })  
+    authordata.findOne({ _id: req.body.id }) 
+        .then(function (author) {
+            if (req.body.image != ""){
+                author.image = req.body.image;
+            }
+               
+            author.title = req.body.title;
+            author.about = req.body.about;
+            author.save(function (err) {
+                if (err) {
+                    res.json({ status: "Failed" });
+                }
+                else {
+                    res.redirect("/authors")
+                }
+            })
+        })
 })
+return authorsRouter;
+}
 
 
 
 
 
 
-module.exports = authorsRouter;
+
+module.exports = router;
