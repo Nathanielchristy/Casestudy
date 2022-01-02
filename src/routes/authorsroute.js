@@ -87,7 +87,7 @@ authorsRouter.post('/edit', function (req, res) {
 
     authordata.findById(req.body.id, function(err, data){
         if (err) {
-            throw err;
+            console.log(err);
         }
         else {
             res.render('editauthor', {
